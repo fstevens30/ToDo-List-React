@@ -8,6 +8,8 @@ Built using the following;
 - [React Native](https://facebook.github.io/react-native/)
 - [Expo](https://expo.io/)
 
+I also used [this tutorial](https://www.youtube.com/watch?v=0kL6nhutjQ8) by [Matt Frances](https://github.com/mattfrances) as a start point.
+
 ### Setup
 
 The project at this stage can only be run in a local enviroment using Expo.
@@ -24,4 +26,4 @@ Then you can run the project on your local machine using the Expo app on your ph
 
 ### Screenshots
 
-![Screenshot1](/assets/Screenshot1.png)
+![Screenshot1](/assets/Screenshot1.png size=200)

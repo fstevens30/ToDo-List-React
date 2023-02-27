@@ -26,4 +26,4 @@ Then you can run the project on your local machine using the Expo app on your ph
 
 ### Screenshots
 
-![Screenshot1](/assets/Screenshot1.png size=200)
+<img src="/assets/Screenshot1.png"  width="40%" height="40%" alt="Screenshot">

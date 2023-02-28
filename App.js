@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 // import { StatusBar } from 'expo-status-bar';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, StatusBar, Appearance } from 'react-native';
 import Task from './components/Task';
 
 export default function App() {
@@ -72,10 +72,38 @@ export default function App() {
   );
 }
 
+//Colors for the themes
+const darkMode = {
+  backgroundColor: '#1D3557',
+  primaryColor: '#F1FAEE',
+  secondaryColor: '#A8DADC',
+  accentColor: '#E63946',
+};
+
+const lightMode = {
+  backgroundColor: '#F1FAEE',
+  primaryColor: '#457B9D',
+  secondaryColor: '#1D3557',
+  accentColor: '#E63946',
+};
+
+// Find out what the current theme is using appearance
+
+let theme = Appearance.getColorScheme();
+if (theme === 'dark') {
+  currentTheme = darkMode;
+  console.log('Dark mode is on');
+}
+else {
+  currentTheme = lightMode;
+  console.log('Light mode is on');
+}
+
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    backgroundColor: '#1D3557',
+    backgroundColor: currentTheme.backgroundColor,
   },
 
   tasksWrapper: {
@@ -87,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     paddingBottom: 10,
-    color: '#F1FAEE',
+    color: theme.primaryColor,
   },
 
   writeTaskWrapper: {
@@ -105,9 +133,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     width: '80%',
     height: 60,
-    backgroundColor: '#F1FAEE',
+    backgroundColor: currentTheme.primaryColor,
     borderRadius: 60,
-    borderColor: '#F1FAEE',
+    borderColor: currentTheme.secondaryColor,
     borderWidth: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 7,},
@@ -119,7 +147,7 @@ const styles = StyleSheet.create({
   addWrapper: {
     width: 60,
     height: 60,
-    backgroundColor: '#E63946',
+    backgroundColor: currentTheme.accentColor,
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -133,7 +161,7 @@ const styles = StyleSheet.create({
 
   addText: {
     fontSize: 30,
-    color: '#F1FAEE',
+    color: currentTheme.primaryColor,
     fontWeight: 'bold',
     alignSelf: 'center',
   },

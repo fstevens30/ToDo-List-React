@@ -48,8 +48,6 @@ export default function App() {
           }
 
         </View>
-
-
       </View>
       </ScrollView>
       
@@ -59,8 +57,8 @@ export default function App() {
         style={styles.writeTaskWrapper}
       >
         <TextInput style={styles.input} placeholder={'Write a task'}
- value={task} onChangeText={text => setTask(text) } />
-
+          value={task} onChangeText={text => setTask(text) } 
+        />
         <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>

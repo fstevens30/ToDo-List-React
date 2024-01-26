@@ -1,167 +1,109 @@
-import React, {useState} from 'react';
-// import { StatusBar } from 'expo-status-bar';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, StatusBar, Appearance } from 'react-native';
-import Task from './components/Task';
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
 
-export default function App() {
-  
-  StatusBar.setBarStyle('light-content', true);
-
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
+export default function App () {
+  const [task, setTask] = useState('')
+  const [taskItems, setTaskItems] = useState([])
 
   const handleAddTask = () => {
-    Keyboard.dismiss();
     setTaskItems([...taskItems, task])
-    setTask(null);
-
+    setTask('')
   }
 
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
+  const handleDeleteTask = (index) => {
+    let itemsCopy = [...taskItems]
+    itemsCopy.splice(index, 1)
+    setTaskItems(itemsCopy)
   }
 
+  const handleLongPress = (index) => {
+    Alert.alert(
+      "Delete Task",
+      "Are you sure you want to delete this task?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => handleDeleteTask(index) }
+      ],
+      { cancelable: false }
+    );
+  }
 
   return (
     <View style={styles.container}>
-
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-      <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
-
-      {/* Todays Tasks */}
       <View style={styles.tasksWrapper}>
-        <Text style={styles.sectionTitle}>Today's Tasks</Text>
-
+        <Text style={styles.sectionTitle}>
+          Today's tasks
+        </Text>
         <View style={styles.items}>
-          {/* This is where the tasks will go! */}
-          {
-            taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                  <Task key={index} text={item} />
-                </TouchableOpacity>
-
-              )
-            })
-          }
-
+          {taskItems.map((item, index) => {
+            return (
+              <TouchableOpacity key={index} onPress={() => handleDeleteTask(index)} onLongPress={() => handleLongPress(index)}>
+                <Text style={styles.item}>{item}</Text>
+              </TouchableOpacity>
+            )
+          })}
         </View>
       </View>
-      </ScrollView>
-      
-      {/* Write a task */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
-      >
-        <TextInput style={styles.input} placeholder={'Write a task'}
-          value={task} onChangeText={text => setTask(text) } 
-        />
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-
+      <TextInput
+        style={styles.input}
+        value={task}
+        onChangeText={text => setTask(text)}
+        placeholder={'Write a task'}
+        onSubmitEditing={handleAddTask} />
+      <TouchableOpacity onPress={handleAddTask}>
+        <View style={styles.addWrapper}>
+          <Text style={styles.addText}>
+            +
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
-  );
-}
-
-//Colors for the themes
-const darkMode = {
-  backgroundColor: '#1D3557',
-  primaryColor: '#F1FAEE',
-  secondaryColor: '#A8DADC',
-  accentColor: '#E63946',
-};
-
-const lightMode = {
-  backgroundColor: '#F1FAEE',
-  primaryColor: '#457B9D',
-  secondaryColor: '#1D3557',
-  accentColor: '#E63946',
-};
-
-// Find out what the current theme is using appearance
-
-let theme = Appearance.getColorScheme();
-if (theme === 'dark') {
-  currentTheme = darkMode;
-  console.log('Dark mode is on');
-}
-else {
-  currentTheme = lightMode;
-  console.log('Light mode is on');
+  )
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
-    backgroundColor: currentTheme.backgroundColor,
+    backgroundColor: '#E8EAED'
   },
-
   tasksWrapper: {
     paddingTop: 80,
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
-
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    paddingBottom: 10,
-    color: theme.primaryColor,
+    fontWeight: 'bold'
   },
-
-  writeTaskWrapper: {
-    position: 'absolute',
-    bottom: 40,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+  items: {
+    marginTop: 30
   },
-
+  item: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#FFF',
+    marginBottom: 10
+  },
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    width: '80%',
-    height: 60,
-    backgroundColor: currentTheme.primaryColor,
+    backgroundColor: '#FFF',
     borderRadius: 60,
-    borderColor: currentTheme.secondaryColor,
+    borderColor: '#C0C0C0',
     borderWidth: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 7,},
-    shadowOpacity: 0.41,
-    shadowRadius: 9.11,
-    elevation: 14,
+    width: 250
   },
-
   addWrapper: {
     width: 60,
     height: 60,
-    backgroundColor: currentTheme.accentColor,
+    backgroundColor: '#FFF',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 7,},
-    shadowOpacity: 0.41,
-    shadowRadius: 9.11,
-    elevation: 14,
+    borderColor: '#C0C0C0',
+    borderWidth: 1
   },
-
-  addText: {
-    fontSize: 30,
-    color: currentTheme.primaryColor,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-  },
-
-});
+  addText: {}
+})
